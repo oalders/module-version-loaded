@@ -2,7 +2,13 @@ use strict;
 use warnings;
 
 use Data::Printer;
-use Module::Version::Loaded qw( versioned_inc versioned_modules );
+use File::Temp qw( tempfile );
+use Module::Version::Loaded qw(
+    diff_versioned_modules
+    store_versioned_modules
+    versioned_inc
+    versioned_modules
+);
 use Test::More;
 
 my %inc     = versioned_inc();
@@ -21,5 +27,19 @@ cmp_ok(
 
 diag p %inc;
 diag p %modules;
+
+# just make sure the following don't throw an exception
+my ( $fh_before, $filename_before ) = tempfile();
+
+store_versioned_modules($filename_before);
+
+my ( $fh_after, $filename_after ) = tempfile();
+
+require Path::Tiny;
+store_versioned_modules($filename_after);
+
+if ( $ENV{MVL_DEBUG} ) {
+    diff_versioned_modules( $filename_before, $filename_after );
+}
 
 done_testing();

@@ -2,9 +2,17 @@ use strict;
 use warnings;
 package Module::Version::Loaded;
 
+our $VERSION = '0.000002';
+
 use Module::Version 0.12 qw( get_version );
-use Sub::Exporter -setup =>
-    { exports => [ 'versioned_inc', 'versioned_modules' ] };
+use Sub::Exporter -setup => {
+    exports => [
+        'diff_versioned_modules',
+        'store_versioned_modules',
+        'versioned_inc',
+        'versioned_modules',
+    ]
+};
 
 sub versioned_inc {
     my %versioned;
@@ -24,11 +32,32 @@ sub versioned_modules {
     return %versioned;
 }
 
+sub diff_versioned_modules {
+    my $file1 = shift || '2 file names required';
+    my $file2 = shift || '2 file names required';
+
+    require Data::Difflet;
+    require Storable;
+
+    print Data::Difflet->new->compare(
+        Storable::retrieve($file1),
+        Storable::retrieve($file2)
+    );
+}
+
+sub store_versioned_modules {
+    my $file = shift || die 'file name required';
+    my %versioned = versioned_modules();
+
+    require Storable;
+    Storable::nstore( \%versioned, $file );
+}
+
 sub _module_version {
     my $module = shift;
     $module =~ s{/}{::}g;
     $module =~ s{\.pm\z}{};
-    return ( get_version($module), $module );
+    return ( get_version($module) || undef, $module );
 }
 1;
 
@@ -86,3 +115,14 @@ the same keys.
         foreach my $key ( %INC ) {
             print "$key $INC{$key} $inc{$key}\n";
         }
+
+=head2 store_versioned_modules( $file )
+
+Serializes your versioned module list to an arbitrary file name which you must
+provide.
+
+=head2 diff_versioned_modules( $file1, $file2 )
+
+Requires the name of two files, which have previously been serialized via
+C<store_versioned_modules>.  Uses C<Data::Difflet> to print a comparison of
+these data structures to STDOUT.

@@ -3,7 +3,7 @@ NAME
     modules
 
 VERSION
-    version 0.000001
+    version 0.000002
 
 SYNOPSIS
         use Module::Version::Loaded qw( versioned_modules );
@@ -51,6 +51,15 @@ FUNCTIONS
             foreach my $key ( %INC ) {
                 print "$key $INC{$key} $inc{$key}\n";
             }
+
+  store_versioned_modules( $file )
+    Serializes your versioned module list to an arbitrary file name which
+    you must provide.
+
+  diff_versioned_modules( $file1, $file2 )
+    Requires the name of two files, which have previously been serialized
+    via "store_versioned_modules". Uses "Data::Difflet" to print a
+    comparison of these data structures to STDOUT.
 
 AUTHOR
     Olaf Alders <olaf@wundercounter.com>
