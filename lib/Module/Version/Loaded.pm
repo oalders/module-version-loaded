@@ -71,6 +71,11 @@ __END__
     my %modules = versioned_modules();
     # %modules contains: ( Foo::Bar => 0.01, Bar::Foo => 1.99, ... )
 
+    # You can test this with a series of one-liners
+    perl -MModule::Version::Loaded=store_versioned_modules -MTest::More -e "store_versioned_modules('test-more.txt')"
+    perl -MModule::Version::Loaded=store_versioned_modules -MApp::Prove -e "store_versioned_modules('app-prove.txt')"
+    perl -MModule::Version::Loaded=diff_versioned_modules -e "diff_versioned_modules('test-more.txt','app-prove.txt')"
+
 =head1 DESCRIPTION
 
 BETA BETA BETA
@@ -126,3 +131,9 @@ provide.
 Requires the name of two files, which have previously been serialized via
 C<store_versioned_modules>.  Uses C<Data::Difflet> to print a comparison of
 these data structures to STDOUT.
+
+You can do this with a one-line to save time:
+
+    perl -MModule::Version::Loaded=diff_versioned_modules -e "diff_versioned_modules('file1','file2')"
+
+=cut
