@@ -1,6 +1,8 @@
 Revision history for Module-Version-Loaded
 
 {{$NEXT}}
+
+0.000003  2015-03-27 17:28:31-04:00 America/Toronto
     - Documents how to use this module with one-liners
 
 0.000002  2015-02-13 19:20:06-05:00 America/Toronto
