@@ -3,7 +3,7 @@ NAME
     modules
 
 VERSION
-    version 0.000002
+    version 0.000003
 
 SYNOPSIS
         use Module::Version::Loaded qw( versioned_modules );
