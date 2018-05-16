@@ -1,7 +1,6 @@
 use strict;
 use warnings;
 
-use Data::Printer;
 use File::Temp qw( tempfile );
 use Module::Version::Loaded qw(
     diff_versioned_modules
@@ -24,9 +23,6 @@ cmp_ok(
     $modules{'Module::Version'}, '>=', 0.12,
     'Module::Version gets its own version in modules'
 );
-
-diag p %inc;
-diag p %modules;
 
 # just make sure the following don't throw an exception
 my ( $fh_before, $filename_before ) = tempfile();
