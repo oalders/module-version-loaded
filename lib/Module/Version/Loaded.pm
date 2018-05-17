@@ -1,6 +1,7 @@
+package Module::Version::Loaded;
+
 use strict;
 use warnings;
-package Module::Version::Loaded;
 
 our $VERSION = '0.000002';
 
@@ -39,6 +40,7 @@ sub diff_versioned_modules {
     require Data::Difflet;
     require Storable;
 
+    ## no critic (InputOutput::RequireCheckedSyscalls)
     print Data::Difflet->new->compare(
         Storable::retrieve($file1),
         Storable::retrieve($file2)
