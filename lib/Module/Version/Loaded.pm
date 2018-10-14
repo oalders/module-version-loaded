@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package Module::Version::Loaded;
 
-our $VERSION = '0.000002';
+our $VERSION = '0.000003';
 
 use Module::Version 0.12 qw( get_version );
 use Sub::Exporter -setup => {
